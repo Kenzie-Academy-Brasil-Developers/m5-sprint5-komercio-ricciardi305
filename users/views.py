@@ -1,8 +1,9 @@
 import django
-from rest_framework.generics import ListCreateAPIView, ListAPIView
+from rest_framework.generics import ListCreateAPIView, ListAPIView, UpdateAPIView
 from rest_framework.views import APIView, Response, status
 from .models import User
-from .serializers import UserSerializer, LoginSerializer
+from .serializers import UserSerializer, LoginSerializer, IsActiveSerializer
+from .permissions import IsUser, IsAdmin
 
 from django.contrib.auth import authenticate
 from rest_framework.authtoken.models import Token
@@ -39,3 +40,15 @@ class ListDateJoinedView(ListAPIView):
     def get_queryset(self):
       joined = self.kwargs["num"]
       return self.queryset.order_by("-date_joined")[0:joined]
+
+class UpdateUserView(UpdateAPIView):
+    permission_classes=[IsUser]
+
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+class IsActiveAdminView(UpdateAPIView):
+    permission_classes=[IsAdmin]
+
+    queryset = User.objects.all()
+    serializer_class = IsActiveSerializer

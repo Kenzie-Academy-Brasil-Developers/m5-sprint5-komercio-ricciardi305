@@ -9,7 +9,7 @@ class ListCreateProductView(GetPostCustomMixin, ListCreateAPIView):
 
     permission_classes=[FreeGetPermission]
 
-    queryset = Product
+    queryset = Product.objects.all()
     serializer_map = {
         "GET": GetProductsSerialier,
         "POST": PostProductSerializer,

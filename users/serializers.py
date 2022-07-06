@@ -18,3 +18,10 @@ class UserSerializer(serializers.ModelSerializer):
 class LoginSerializer(serializers.Serializer):
     email = serializers.EmailField()
     password = serializers.CharField()
+
+class IsActiveSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ["id", "email", "password", "first_name", "last_name", "is_seller", "date_joined", "is_active"]
+        read_only_fields = ["id", "email", "password", "first_name", "last_name", "is_seller", "date_joined"]
+
